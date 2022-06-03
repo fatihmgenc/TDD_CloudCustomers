@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using TDD_CloudCustomers.API.Services.Abstract.UserServices;
 
 namespace TDD_CloudCustomers.Controllers
 {
@@ -7,19 +8,18 @@ namespace TDD_CloudCustomers.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        public UserController()
-        {
+        private readonly IUserService _userService;
 
-        }
-        public UserController(ILogger<UserController> logger)
+        public UserController(IUserService userService)
         {
-            _logger = logger;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetUsers")]
         public async Task<IActionResult> Get()
         {
-            return Ok("all good");
+            var users = await _userService.GetAll();
+            return Ok(users);
         }
     }
 }
